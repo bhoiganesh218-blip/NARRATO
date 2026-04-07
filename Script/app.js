@@ -22,11 +22,42 @@ import { renderSearchPage } from "./search.js";
 import { getCurrentUser } from "./auth.js";
 
 
+
+
+
+function getQueryParams() {
+  const params = new URLSearchParams(window.location.search);
+
+  return {
+    cat: params.get("cat"),
+    story: params.get("story")
+  };
+}
+
 // ===============================
 // INIT
 // ===============================
 init();
 
+
+
+
+
+const { cat, story } = getQueryParams();
+
+// 👉 Agar share link se open hua hai
+if (cat !== null && story !== null) {
+
+  // direct player open karo
+  render("player", {
+    catId: Number(cat),
+    storyId: Number(story)
+  });
+
+} else {
+  // normal home
+  render("home");
+}
 
 // ===============================
 // RENDER LOCK (PREVENT BUGS)
