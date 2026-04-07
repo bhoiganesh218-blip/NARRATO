@@ -266,7 +266,9 @@ export function renderPlay(allData, currentCatId, currentStoryId) {
   // ===============================
   shareBtn?.addEventListener("click", async () => {
 
-  const link = `${window.location.origin}?cat=${currentCatId}&story=${currentStoryId}`;
+  const repoName = "NARRATO"; // 👈 apna GitHub repo name daalo
+
+const link = `${window.location.origin}/${repoName}/?cat=${currentCatId}&story=${currentStoryId}`;
 
   // Fallback: copy to clipboard
   try {
