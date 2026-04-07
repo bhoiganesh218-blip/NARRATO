@@ -1308,6 +1308,7 @@ color:#aaa;
   background: #0f172a;
   color: white;
   outline: none;
+margin-bottom: 50px;
 }
 
 #contactPage button {
@@ -1319,7 +1320,9 @@ color:#aaa;
 }
 
 
-
+.contact-intro{
+  margin-bottom: 20px;
+}
 
 
 
