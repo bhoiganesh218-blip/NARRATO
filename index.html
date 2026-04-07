@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NARRATO</title>
+    <link rel = "stylesheet" href = "style.css" >
+</head>
+<body>
+  <!--======== THE IS NAV BAR =========-->
+  <div id = "navbar">
+    <div id = "logoSection">
+      <div id = "logo"></div>
+      
+      <div class = "search">
+          <input type = "text" id = "searchBar" placeholder="Search">
+      <div id = "searchLogo"></div>
+   </div>
+    </div>
+    <ul id = "navOption">
+      <li id = "homeBtn">Home</li>
+      <li id = "categoryBtn">Category</li>
+      <li id="contactBtn">Contact</li>
+      <li id = "profileBtn">Profile</li>
+      <li id="historyBtn">History</li>
+    </ul>
+  </div>
+<div id="loader">
+  <div class="loader-circle"></div>
+  <div class="loader-text">Loading...</div>
+</div>
+
+   <!--====== TEST START ======-->
+   <div id = "test">
+   <!------------------------------->   
+    
+    
+    
+    
+    
+    
+    
+    
+   <!------------------------------->   
+   </div>
+   <!--======= TEST END =======-->
+   
+   <!--====== AUDIO PLAYER ======-->
+<div id = "audioDisplay"></div>
+  <!--====== MAIN SECTION START ======-->
+<main>
+
+  
+  
+</main>
+  <!--====== MAIN SECTION END ======-->
+
+
+<section id="historySection" class="hidden">
+  <h2>📜 History</h2>
+  <div id="historyList"></div>
+</section>
+
+
+  <!--==== PROFILE SECTION START ====-->
+<div id = "profileDiv">
+<div id="authApp">
+
+  <!-- AUTH BOX -->
+  <div id="authBox">
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button id="loginTab" class="active">Login</button>
+      <button id="signupTab">Signup</button>
+    </div>
+
+    <!-- FORM -->
+    <div id="formContainer">
+
+      <!-- Email -->
+      <input type="email" id="email" placeholder="Enter Email">
+
+      <!-- Password -->
+      <div class="password-box">
+        <input type="password" id="password" placeholder="Enter Password">
+        <button type="button" id="forgotPassword">Forgot Password?</button>
+        <p id="emailGuide" style="display:none;">
+  Didn’t receive the email? Check your Spam or Promotions folder.
+</p>
+        <span id="togglePassword">👁</span>
+      </div>
+
+      <!-- Phone -->
+      <input type="text" id="phone" placeholder="Phone Number ( Optional )">
+
+      <!-- Buttons -->
+      <button id="submitBtn">Login</button>
+
+      <button id="googleBtn">Login with Google</button>
+
+      <p id="switchText">Don't have account? Signup</p>
+
+    </div>
+
+  </div>
+
+  <!-- PROFILE -->
+  <div id="profileBox" style="display:none;">
+    <h2 id="welcomeText"></h2>
+    <p id="userEmail"></p>
+    <button id="logoutBtn">Logout</button>
+  </div>
+
+</div>
+
+<!-- POPUP -->
+<div id="popup">
+  <div id="popupContent">
+    <p id="popupText"></p>
+    <button id="popupOk">OK</button>
+    <button id="popupCancel">Cancel</button>
+  </div>
+ 
+</div>
+</div>
+  <!--==== PROFILE SECTION END ====-->
+
+
+
+
+  <!--===== FOOTER SECTION START ======-->
+ 
+<footer class="footer">
+
+<div class="footer-container">
+
+<div class="footer-logo">
+<h2>Narrato</h2>
+<p>Listen to powerful stories that inspire, entertain and transform your thinking.</p>
+</div>
+
+<div class="footer-links">
+
+<h3>Explore</h3>
+
+<ul>
+<li onclick="render('home')"><a>Home</a></li>
+<li onclick="render('category')"><a>Categories</a></li>
+<li><a>Latest Stories</a></li>
+<li><a>Trending</a></li>
+</ul>
+
+</div>
+
+<div class="footer-links">
+
+<h3>Company</h3>
+
+<ul>
+<li><a href="about.html">About</a></li>
+<li onclick="render('contact')"><a>Contact</a></li>
+<li><a href="privacy.html">Privacy Policy</a></li>
+<li><a href="terms.html">Terms</a></li>
+</ul>
+
+</div>
+
+<div class="footer-social">
+
+<h3>Follow</h3>
+
+<div class="social-icons">
+
+<a href="https://youtube.com/@talkingganesh?si=rTODX3VH4t3nQls0">YouTube</a>
+<a href="https://www.instagram.com/ganeshbhoi111?igsh=NmU1ZTE5cno4bmtv">Instagram</a>
+<a href="https://x.com/Teamwarrio25063">Twitter</a>
+<a href="mailto:bhoiganesh218@gmail.com">Email</a>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="footer-bottom">
+
+<p>© 2026 Narrato. All Rights Reserved.</p>
+
+</div>
+
+</footer>
+<!--    THIS IS THE  SECTION END    -->
+  
+
+
+ <script type = "module" src = "./Script/auth.js"  ></script>
+<script type = "module" src = "./Script/app.js" ></script>
+</body>
+</html>
