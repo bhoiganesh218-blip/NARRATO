@@ -1,15 +1,6 @@
-const CACHE_NAME = "narrato-v1";
+const CACHE_NAME = "narrato-v2";
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
-      return cache.addAll([
-        "/NARRATO/",
-        "/NARRATO/index.html",
-        "/NARRATO/style.css"
-      ]);
-    })
-  );
   self.skipWaiting();
 });
 
@@ -18,7 +9,5 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  event.respondWith(
-    caches.match(event.request).then(res => res || fetch(event.request))
-  );
+  event.respondWith(fetch(event.request));
 });
