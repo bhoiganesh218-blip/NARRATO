@@ -1,8 +1,8 @@
 {
   "name": "NARRATO",
   "short_name": "NARRATO",
-  "start_url": "/NARRATO/",
-  "scope": "/NARRATO/"
+  "start_url": "/NARRATO/index.html",
+  "scope": "/NARRATO/",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
