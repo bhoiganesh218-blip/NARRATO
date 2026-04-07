@@ -1308,7 +1308,6 @@ color:#aaa;
   background: #0f172a;
   color: white;
   outline: none;
-margin-bottom: 50px;
 }
 
 #contactPage button {
@@ -1317,6 +1316,7 @@ margin-bottom: 50px;
   background: #22D3EE;
   border-radius: 6px;
   cursor: pointer;
+margin-bottom: 50px;
 }
 
 
