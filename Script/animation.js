@@ -29,8 +29,7 @@ export function initSmartNavbar() {
     const navbar = document.getElementById("navbar");
     if (!navbar) return;
 
-    // Sabse pehle body par padding add karo taaki content piche na chhup jaye
-    document.body.style.paddingTop = navbar.offsetHeight + "px";
+    
 
     let lastScrollY = window.scrollY;
     let ticking = false; // Performance optimize karne ke liye
