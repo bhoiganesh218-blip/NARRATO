@@ -25,33 +25,33 @@ searchLogo.addEventListener("click",()=>{
 
 
 
-export function setupSmartNavbar() {
-    const nav = document.querySelector("#navbar") || document.querySelector("#navbarHidden");
-    const body = document.body;
-
-    if (!nav) return;
+export function initSmartNavbar() {
+    const navbar = document.getElementById("navbar");
+    if (!navbar) return;
 
     let lastScrollY = window.scrollY;
+    const delta = 5; // Kitne pixel scroll ke baad action lena hai (flicker rokne ke liye)
 
-    // 2. Scroll Event
+    // Body padding set karein taaki content piche na chhup jaye
+    document.body.style.paddingTop = navbar.offsetHeight + "px";
+
     window.addEventListener("scroll", () => {
         const currentScrollY = window.scrollY;
 
-        // Agar niche scroll ho raha hai aur top se 100px door hain
-        if (currentScrollY > lastScrollY && currentScrollY > 100) {
-            if (nav.id !== "navbarHidden") {
-                nav.id = "navbarHidden";
-            }
+        // Agar scroll bahut chota hai (delta se kam), toh kuch mat karo
+        if (Math.abs(lastScrollY - currentScrollY) <= delta) return;
+
+        // Niche scroll aur page ke top se niche hain
+        if (currentScrollY > lastScrollY && currentScrollY > 80) {
+            navbar.classList.add("nav-hidden");
         } 
-        // Agar upar scroll ho raha hai
+        // Upar scroll
         else {
-            if (nav.id !== "navbar") {
-                nav.id = "navbar";
-            }
+            navbar.classList.remove("nav-hidden");
         }
+
         lastScrollY = currentScrollY;
     });
 }
 
-// Page load hote hi function ko chalao
-document.addEventListener("DOMContentLoaded", setupSmartNavbar);
+document.addEventListener("DOMContentLoaded", initSmartNavbar);
