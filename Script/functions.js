@@ -1,7 +1,9 @@
 import { getAllData } from "./firebase.js";
 import { renderPlay }from "./audio-player.js";
 import { setupSearch } from "./search.js";
-import { navAnimation } from "./animation.js";
+import { navAnimation,setupSmartNavbar } from "./animation.js";
+
+
 
 
 export let allData = [];
