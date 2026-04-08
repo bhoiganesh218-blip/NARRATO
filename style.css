@@ -534,6 +534,24 @@ body{
 /* °°°°°°°°=================°°°°°°°°°°°*/
 /*         THIS IS THE NAVBAR ↓↓↓
 /* °°°°°°°°================°°°°°°°°°°°*/
+
+/* Jab navbar hide hoga tab ye ID apply hogi */
+#navbarHidden {
+  height: 80px;
+  background-color: #020617;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 0 10px black;
+  /* Slide animation */
+  transition: transform 0.4s ease-in-out;
+  transform: translateY(-100%); 
+}
+
+
+
+
 #navbar{
   height: 80px;
   background-color: #020617;
@@ -541,6 +559,9 @@ body{
   top: 0px;
   z-index:1000;
   box-shadow: 0 0 10px black;
+
+transition: transform 0.4s ease-in-out !important;
+  transform: translateY(0);
 }
 #logoSection{
   width: 100%;
