@@ -1,7 +1,7 @@
 import { getAllData } from "./firebase.js";
 import { renderPlay }from "./audio-player.js";
 import { setupSearch } from "./search.js";
-import { navAnimation,initSmartNavbar } from "./animation.js";
+import { navAnimation,initPWANavbar } from "./animation.js";
 
 
 
