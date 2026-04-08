@@ -29,35 +29,26 @@ export function initSmartNavbar() {
     const navbar = document.getElementById("navbar");
     if (!navbar) return;
 
-    
-
     let lastScrollY = window.scrollY;
-    let ticking = false; // Performance optimize karne ke liye
 
     window.addEventListener("scroll", () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                const currentScrollY = window.scrollY;
+        const currentScrollY = window.scrollY;
 
-                // Flicker rokne ke liye: 10px se zyada scroll hone par hi action lo
-                if (Math.abs(currentScrollY - lastScrollY) > 10) {
-                    
-                    if (currentScrollY > lastScrollY && currentScrollY > 100) {
-                        // NICHE SCROLL -> JS se style apply karo (Hide)
-                        navbar.style.transform = "translateY(-100%)";
-                    } else {
-                        // UPAR SCROLL -> JS se style apply karo (Show)
-                        navbar.style.transform = "translateY(0)";
-                    }
-                    
-                    lastScrollY = currentScrollY;
-                }
-                ticking = false;
-            });
-            ticking = true;
+        // 1. Flicker rokne ke liye: Agar scroll bahut kam hai to ignore karo
+        if (Math.abs(currentScrollY - lastScrollY) < 5) return;
+
+        // 2. Logic: Niche scroll -> Chhupa do | Upar scroll -> Dikha do
+        if (currentScrollY > lastScrollY && currentScrollY > 80) {
+            // NICHE: Puri tarah chhup jaye
+            navbar.style.transform = "translateY(-100%)";
+        } else {
+            // UPAR: Wapas dikhne lage
+            navbar.style.transform = "translateY(0)";
         }
+
+        lastScrollY = currentScrollY;
     });
 }
 
-// Function call
+// Activate on Load
 document.addEventListener("DOMContentLoaded", initSmartNavbar);
