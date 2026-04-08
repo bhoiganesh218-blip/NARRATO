@@ -29,29 +29,36 @@ export function initSmartNavbar() {
     const navbar = document.getElementById("navbar");
     if (!navbar) return;
 
-    let lastScrollY = window.scrollY;
-    const delta = 5; // Kitne pixel scroll ke baad action lena hai (flicker rokne ke liye)
-
-    // Body padding set karein taaki content piche na chhup jaye
+    // Sabse pehle body par padding add karo taaki content piche na chhup jaye
     document.body.style.paddingTop = navbar.offsetHeight + "px";
 
+    let lastScrollY = window.scrollY;
+    let ticking = false; // Performance optimize karne ke liye
+
     window.addEventListener("scroll", () => {
-        const currentScrollY = window.scrollY;
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const currentScrollY = window.scrollY;
 
-        // Agar scroll bahut chota hai (delta se kam), toh kuch mat karo
-        if (Math.abs(lastScrollY - currentScrollY) <= delta) return;
-
-        // Niche scroll aur page ke top se niche hain
-        if (currentScrollY > lastScrollY && currentScrollY > 80) {
-            navbar.classList.add("nav-hidden");
-        } 
-        // Upar scroll
-        else {
-            navbar.classList.remove("nav-hidden");
+                // Flicker rokne ke liye: 10px se zyada scroll hone par hi action lo
+                if (Math.abs(currentScrollY - lastScrollY) > 10) {
+                    
+                    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+                        // NICHE SCROLL -> JS se style apply karo (Hide)
+                        navbar.style.transform = "translateY(-100%)";
+                    } else {
+                        // UPAR SCROLL -> JS se style apply karo (Show)
+                        navbar.style.transform = "translateY(0)";
+                    }
+                    
+                    lastScrollY = currentScrollY;
+                }
+                ticking = false;
+            });
+            ticking = true;
         }
-
-        lastScrollY = currentScrollY;
     });
 }
 
+// Function call
 document.addEventListener("DOMContentLoaded", initSmartNavbar);
