@@ -538,20 +538,16 @@ body{
 #navbar {
   height: 80px;
   background-color: #020617;
-  position: fixed; /* Sticky se fixed zyada stable hai */
+  position: fixed; /* JS ise handle karega par base fixed hona chahiye */
   top: 0;
+  left: 0;
   width: 100%;
   z-index: 1000;
   box-shadow: 0 0 10px black;
   
-  /* Smooth transition yahan zaroori hai */
+  /* Smooth Slide Animation */
   transition: transform 0.4s ease-in-out !important;
-  transform: translateY(0); 
-}
-
-/* Nayi class jo JS se lagegi */
-.nav-hidden {
-  transform: translateY(-100%) !important;
+  will-change: transform; /* Browser performance ke liye */
 }
 
 
