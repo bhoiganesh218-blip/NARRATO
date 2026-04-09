@@ -169,11 +169,16 @@ export function renderPlay(allData, currentCatId, currentStoryId) {
   });
 
   audio.onplay = () => playBtn.innerText = "⏸";
-  audio.onpause = () => playBtn.innerText = "▶";
+  audio.onpause = () =>{
+    
+     playBtn.innerText = "▶";
+     disc.classList.remove("rotate");
+  }
   
   audio.onplay = () => {
 
   playBtn.innerText = "⏸";
+  disc.classList.add("rotate");
 
   // 🔥 MEDIA SESSION START
   if ('mediaSession' in navigator) {
