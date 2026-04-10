@@ -19,15 +19,12 @@ import {
 import { setupContactForm } from "./contact.js";
 import { renderHistoryPage } from "./history.js";
 import { renderSearchPage } from "./search.js";
-import { getCurrentUser } from "./auth.js";
 
-
-
-
-
+// ===============================
+// QUERY PARAMS
+// ===============================
 function getQueryParams() {
   const params = new URLSearchParams(window.location.search);
-
   return {
     cat: params.get("cat"),
     story: params.get("story")
@@ -37,34 +34,33 @@ function getQueryParams() {
 // ===============================
 // INIT
 // ===============================
-
 window.addEventListener("load", async () => {
 
-  await init(); // 🔥 pehle data load hoga
+  await init();
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const cat = urlParams.get("cat");
-  const story = urlParams.get("story");
+  const { cat, story } = getQueryParams();
+
+  // 🔥 BASE STATE (home)
+  history.replaceState({ page: "home" }, "", "#home");
+
+  // 🔥 FAKE LAYER (important)
+  history.pushState({ page: "app" }, "", "#app");
 
   if (cat !== null && story !== null) {
-
     render("player", {
       catId: Number(cat),
       storyId: Number(story)
     });
-
   } else {
     render("home");
   }
 
 });
 
-
 // ===============================
-// RENDER LOCK (PREVENT BUGS)
+// RENDER LOCK
 // ===============================
 let isRendering = false;
-
 
 // ===============================
 // GLOBAL RENDER FUNCTION
@@ -75,26 +71,22 @@ async function render(page, data = {}) {
   isRendering = true;
 
   try {
-     
+
     const section = document.getElementById("historySection");
-    
     const main = document.querySelector("main");
     const profile = document.querySelector("#profileDiv");
     const audioDisplay = document.querySelector("#audioDisplay");
     const player = document.querySelector("#audioPlayer");
 
-    // ===============================
-    // HISTORY CONTROL
-    // ===============================
-    history.pushState({ page, data }, "", `#${page}`);
+    // 🔥 always replace (no stack build)
+    history.replaceState({ page, data }, "", `#${page}`);
 
     // ===============================
     // RESET UI
     // ===============================
     main.classList.add("hidden");
     profile.classList.add("hidden");
-    document.getElementById("historySection")?.classList.add("hidden");
-    section.classList.add("hidden");
+    section?.classList.add("hidden");
 
     // ===============================
     // HOME
@@ -102,7 +94,7 @@ async function render(page, data = {}) {
     if (page === "home") {
 
       main.classList.remove("hidden");
-      main.innerHTML = ""; 
+      main.innerHTML = "";
 
       if (player) {
         audioDisplay.classList.remove("hidden");
@@ -119,14 +111,6 @@ async function render(page, data = {}) {
     // PLAYER
     // ===============================
     else if (page === "player") {
-
-      const user = getCurrentUser();
-
-         if (!user) {
-             isRendering = false;
-               window.render("profile", { from: "player" });
-                  return;
-                }
 
       main.classList.remove("hidden");
       main.innerHTML = "";
@@ -218,7 +202,7 @@ async function render(page, data = {}) {
     // HISTORY
     // ===============================
     else if (page === "history") {
-      
+
       if (player) {
         audioDisplay.classList.remove("hidden");
         player.classList.add("mini");
@@ -237,12 +221,10 @@ async function render(page, data = {}) {
   }
 }
 
-
 // ===============================
 // GLOBAL ACCESS
 // ===============================
 window.render = render;
-
 
 // ===============================
 // NAV BUTTONS
@@ -253,25 +235,15 @@ document.getElementById("categoryBtn").addEventListener("click", () => render("c
 document.getElementById("contactBtn").addEventListener("click", () => render("contact"));
 document.getElementById("historyBtn").addEventListener("click", () => render("history"));
 
+// ===============================
+// BACK BUTTON CONTROL
+// ===============================
+window.addEventListener("popstate", function () {
 
-// ===============================
-// INITIAL STATE
-// ===============================
-if (!cat && !story) {
-  history.replaceState({ page: "home" }, "", "#home");
-}
+  // 🔥 force home instead of exit
+  render("home");
 
-// ===============================
-// BACK BUTTON HANDLING
-// ===============================
-window.addEventListener("popstate", function (event) {
-
-  if (event.state && event.state.page) {
-    render(event.state.page, event.state);
-  } else {
-    render("home");
-    history.replaceState({ page: "home" }, "", "#home");
-  }
-  
+  // 🔥 recreate fake layer again
+  history.pushState({ page: "app" }, "", "#app");
 
 });
