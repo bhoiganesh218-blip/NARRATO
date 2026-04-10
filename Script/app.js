@@ -37,15 +37,14 @@ function getQueryParams() {
 // ===============================
 // INIT
 // ===============================
-init();
 
+window.addEventListener("load", async () => {
 
+  await init(); // 🔥 pehle data load hoga
 
-
-
-const { cat, story } = getQueryParams();
-
-window.addEventListener("load", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const cat = urlParams.get("cat");
+  const story = urlParams.get("story");
 
   if (cat !== null && story !== null) {
 
@@ -59,6 +58,8 @@ window.addEventListener("load", () => {
   }
 
 });
+
+
 // ===============================
 // RENDER LOCK (PREVENT BUGS)
 // ===============================
