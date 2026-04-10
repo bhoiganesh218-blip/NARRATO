@@ -31,7 +31,7 @@ export async function init() {
   
   document.getElementById("loader").style.display = "none"; // REMOVE LODING
   
-  window.render("home")//RENDER HOME
+  //window.render("home")//RENDER HOME
   
   setTimeout(() => {
   setupSearch(allData);// SETUP SEARCH
