@@ -566,7 +566,7 @@ export function renderContactPage(){
 
         <div class="contact-info">
           <h2>Other Ways</h2>
-          <p>Email : narrato.contact@gmail.com</p>
+          <p>Email : narrato.contact777@gmail.com</p>
           <p>YouTube : Talking Ganesh</p>
         </div>
 
