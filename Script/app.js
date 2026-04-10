@@ -45,20 +45,20 @@ init();
 
 const { cat, story } = getQueryParams();
 
-// 👉 Agar share link se open hua hai
-if (cat !== null && story !== null) {
+window.addEventListener("load", () => {
 
-  // direct player open karo
-  render("player", {
-    catId: Number(cat),
-    storyId: Number(story)
-  });
+  if (cat !== null && story !== null) {
 
-} else {
-  // normal home
-  render("home");
-}
+    render("player", {
+      catId: Number(cat),
+      storyId: Number(story)
+    });
 
+  } else {
+    render("home");
+  }
+
+});
 // ===============================
 // RENDER LOCK (PREVENT BUGS)
 // ===============================
@@ -256,8 +256,9 @@ document.getElementById("historyBtn").addEventListener("click", () => render("hi
 // ===============================
 // INITIAL STATE
 // ===============================
-history.replaceState({ page: "home" }, "", "#home");
-
+if (!cat && !story) {
+  history.replaceState({ page: "home" }, "", "#home");
+}
 
 // ===============================
 // BACK BUTTON HANDLING
