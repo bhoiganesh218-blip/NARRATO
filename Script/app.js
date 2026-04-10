@@ -146,10 +146,6 @@ async function render(page, data = {}) {
 
       profile.classList.remove("hidden");
 
-      if (player) {
-        audioDisplay.classList.remove("hidden");
-        player.classList.add("mini");
-      }
     }
 
     // ===============================
