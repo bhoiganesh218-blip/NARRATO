@@ -1,4 +1,25 @@
 import { saveHistory, getAllHistory } from "./history.js";
+import { getCurrentUser } from "./auth.js";
+
+  // ===============================
+  // Auth Check function
+  // ===============================
+
+function requireLogin() {
+  const user = getCurrentUser();
+
+  if (!user) {
+    render("profile");
+    return false;
+  }
+
+  return true;
+}
+
+  // ===============================
+  // RENDER FUNCTION
+  // ===============================
+
 
 export function renderPlay(allData, currentCatId, currentStoryId) {
 
@@ -133,7 +154,8 @@ export function renderPlay(allData, currentCatId, currentStoryId) {
     if (index === currentEpisodeIndex) div.classList.add("active");
 
     div.onclick = () => {
-
+      
+      if (!requireLogin()) return; // Check
       document.querySelectorAll(".episode")
         .forEach(el => el.classList.remove("active"));
 
@@ -160,6 +182,9 @@ export function renderPlay(allData, currentCatId, currentStoryId) {
   // CONTROLS
   // ===============================
   playBtn.onclick = () => {
+    
+    
+    if (!requireLogin()) return; // CHECK
     audio.paused ? audio.play() : audio.pause();
   };
 
@@ -170,11 +195,11 @@ export function renderPlay(allData, currentCatId, currentStoryId) {
 
   audio.onplay = () => playBtn.innerText = "⏸";
   audio.onpause = () =>{
-    
+
      playBtn.innerText = "▶";
      disc.classList.remove("rotate");
   }
-  
+
   audio.onplay = () => {
 
   playBtn.innerText = "⏸";
@@ -235,7 +260,8 @@ export function renderPlay(allData, currentCatId, currentStoryId) {
   // AUTO NEXT
   // ===============================
   audio.onended = () => {
-
+    
+    if (!requireLogin()) return; // CHECK
     if (!autoPlayNext) return;
 
     const next = currentEpisodeIndex + 1;
