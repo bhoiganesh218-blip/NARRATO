@@ -1020,7 +1020,7 @@ color:#aaa;
 }
 
 .hidden{
-  display: none;
+  display: none !important;
 }
 
 #authApp {
