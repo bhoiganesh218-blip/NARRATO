@@ -36,7 +36,9 @@ function getQueryParams() {
 // ===============================
 window.addEventListener("load", async () => {
 
+  showLoader();
   await init();
+  hideLoader();
 
   const { cat, story } = getQueryParams();
 
