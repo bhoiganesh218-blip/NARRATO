@@ -49,7 +49,6 @@ export async function init() {
   }
   // ===  WHOLE UI RRNDER === //
   
-  document.getElementById("loader").style.display = "none"; // REMOVE LODING
   
  // window.render("home")//RENDER HOME
   
