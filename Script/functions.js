@@ -4,6 +4,26 @@ import { setupSearch } from "./search.js";
 import { navAnimation,initPWANavbar } from "./animation.js";
 
 
+// ===============================
+// SHOW LOADER
+// ===============================
+export function showLoader() {
+  const loader = document.getElementById("globalLoader");
+  if (loader) loader.classList.remove("hidden");
+}
+
+// ===============================
+// HIDE LOADER
+// ===============================
+export function hideLoader() {
+  const loader = document.getElementById("globalLoader");
+  if (loader) loader.classList.add("hidden");
+}
+
+window.showLoader = showLoader;
+window.hideLoader = hideLoader;
+
+
 
 
 export let allData = [];
