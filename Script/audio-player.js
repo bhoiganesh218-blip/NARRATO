@@ -487,6 +487,8 @@ function cancelSleepTimer() {
     player?.classList.remove("mini");
     player.style.left = "";
     player.style.top = "";
+   const main = document.querySelector("main");
+    main.innerHTML = ""
   });
 
   // ===============================
