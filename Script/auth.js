@@ -14,6 +14,14 @@ import {
   sendPasswordResetEmail,
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
+import {
+  doc,
+  setDoc,
+  serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+import { db } from "./firebase.js";
+
 
 // =============================
 // INIT
@@ -21,15 +29,35 @@ import {
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
+let currentUser = null;
+
+
+// =============================
+// SYNC USER TO FIRESTORE
+// =============================
+async function syncUser(user) {
+  if (!user) return;
+
+  try {
+    await setDoc(doc(db, "users", user.uid), {
+      uid: user.uid,
+      name: user.displayName || "Unknown",
+      email: user.email || "",
+      photoURL: user.photoURL || "",
+      lastLogin: serverTimestamp()
+    }, { merge: true });
+
+  } catch (err) {
+    console.log("User sync error:", err);
+  }
+}
+
 
 // =============================
 // DOM READY
 // =============================
-let currentUser = null;
-
 document.addEventListener("DOMContentLoaded", () => {
 
-  // ELEMENTS
   const authBox = document.getElementById("authBox");
   const profileBox = document.getElementById("profileBox");
 
@@ -54,22 +82,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
   // =============================
-  // UI UPDATE
+  // TAB UI
   // =============================
   function updateTabs() {
+    submitBtn.innerText = isSignup ? "Signup" : "Login";
 
-    if (isSignup) {
-      submitBtn.innerText = "Signup";
-
-      signupTab.classList.add("active");
-      loginTab.classList.remove("active");
-
-    } else {
-      submitBtn.innerText = "Login";
-
-      loginTab.classList.add("active");
-      signupTab.classList.remove("active");
-    }
+    signupTab.classList.toggle("active", isSignup);
+    loginTab.classList.toggle("active", !isSignup);
   }
 
 
@@ -124,11 +143,16 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     try {
+
       if (isSignup) {
-        await createUserWithEmailAndPassword(auth, email.value, password.value);
-      } else {
-        await signInWithEmailAndPassword(auth, email.value, password.value);
+        const cred = await createUserWithEmailAndPassword(auth, email.value, password.value);
+        await syncUser(cred.user);
+      } 
+      else {
+        const cred = await signInWithEmailAndPassword(auth, email.value, password.value);
+        await syncUser(cred.user);
       }
+
     } catch (err) {
       showPopup(err.message);
     }
@@ -136,55 +160,59 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  // Google Login
+  // =============================
+  // GOOGLE LOGIN
+  // =============================
   googleBtn?.addEventListener("click", async () => {
     try {
-      await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, provider);
+      await syncUser(result.user);
+
     } catch (err) {
       showPopup(err.message);
     }
   });
 
 
-  // Logout
+  // =============================
+  // LOGOUT
+  // =============================
   document.getElementById("logoutBtn")?.addEventListener("click", () => {
     showPopup("Logout confirm?", async () => {
+      showLoader();
       await signOut(auth);
+      hideLoader();
     });
   });
 
 
+  // =============================
+  // FORGOT PASSWORD
+  // =============================
+  const forgotPasswordBtn = document.getElementById("forgotPassword");
 
-  // forgot Password
+  forgotPasswordBtn?.addEventListener("click", async () => {
 
-const forgotPasswordBtn = document.getElementById("forgotPassword");
+    if (!email.value) {
+      showPopup("Please enter your email first");
+      return;
+    }
 
-forgotPasswordBtn?.addEventListener("click", async () => {
+    try {
+      await sendPasswordResetEmail(auth, email.value);
+      showPopup("Password reset email sent!");
+    } catch (err) {
+      showPopup(err.message);
+    }
+  });
 
-  if (!email.value) {
-    showPopup("Please enter your email first");
-    return;
-  }
-
-  try {
-    await sendPasswordResetEmail(auth, email.value);
-    showPopup("Password reset email sent! Check your inbox.");
-  } catch (err) {
-    showPopup(err.message);
-  }
-
-});
-
-document.getElementById("forgotPassword").addEventListener("click", () => {
-  document.getElementById("emailGuide").style.display = "block";
-});
 
   // =============================
   // AUTH STATE
   // =============================
-  
+  onAuthStateChanged(auth, async (user) => {
 
-  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
 
     if (user) {
       authBox.style.display = "none";
@@ -193,6 +221,8 @@ document.getElementById("forgotPassword").addEventListener("click", () => {
       welcomeText.innerText = `Welcome ${user.displayName || "User"} 👋`;
       userEmail.innerText = user.email;
 
+      await syncUser(user);
+
     } else {
       authBox.style.display = "block";
       profileBox.style.display = "none";
@@ -200,17 +230,16 @@ document.getElementById("forgotPassword").addEventListener("click", () => {
       email.value = "";
       password.value = "";
     }
-    
-    currentUser = user;
-
   });
 
 
-  // INIT
   updateTabs();
-
 });
 
+
+// =============================
+// EXPORT CURRENT USER
+// =============================
 export function getCurrentUser() {
   return currentUser;
 }
